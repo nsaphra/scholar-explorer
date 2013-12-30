@@ -74,7 +74,7 @@ class SocialTrends:
         #TODO better scoring system please
         trend_score = len(tweets)
         #TODO ID top tweets
-        top_tweets = [(t, info) for t in tweets[:30]]
+        top_tweets = [(t, self.tw.show_status(id=t)) for t in tweets[:30]]
 
         self.twitter_results = (trend_score, top_tweets)
         return self.twitter_results
