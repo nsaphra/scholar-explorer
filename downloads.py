@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 def downloads(title):
     
     # put the title into proper form to use as a query 
-    query = title.rstrip().lstrip().replace(" ","-");
+    query = title.strip().replace(" ","-");
 
     # base site 
     base = "http://dl.acm.org/results.cfm?query=" + query
@@ -28,7 +28,6 @@ def downloads(title):
     
     # extract the three download numbers from the string 
     string_scramble = str(scramble).split('/strong>:')[1].replace('\n',' ').split(',')
-
     downloads = []
     for i in string_scramble[:3]:
         curr_item = i.split(':')[1]
