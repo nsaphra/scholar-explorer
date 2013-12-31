@@ -30,22 +30,30 @@ class SocialTrends:
         #allnames = author.split() # possible author names
         #lastname = allnames[len(allnames)-1]
         tweets = []
+        trend_score = 0
 
         # search title + author
         #TODO count retweets and use in ranking
-        results = self.tw.search(q="site:twitter.com \"" + self.title + "\" " + self.author, count=100)
-        tweets += [status['id'] for status in results['statuses']]
+        results = self.tw.search(q="\"" + self.title + "\" " + self.author, count=50)
+        if results['statuses']:
+            (new_tweets, rt_counts) = zip(*[(status['id'], status['retweet_count']) for status in results['statuses']])
+            tweets += new_tweets
+            trend_score += sum(rt_counts)
         #TODO see if there are any new urls to check in results?
         #TODO search author + title fragments
 
         # possible urls
+        rt_count = 0
         for url in self.urls:
             url = url.lstrip("http://").lstrip("https://").lstrip("www.")
-            results = self.tw.search(q=url, count=100)
-            tweets += [status['id'] for status in results['statuses']]
+            results = self.tw.search(q=url, count=50)
+            if results['statuses']:
+                (new_tweets, rt_counts) = zip(*[(status['id'], status['retweet_count']) for status in results['statuses']])
+                tweets += new_tweets
+                trend_score += sum(rt_counts)
 
         #TODO better scoring system please
-        trend_score = len(tweets)
+        trend_score += len(tweets)
         #TODO ID top tweets
         top_tweets = [(t, self.tw.show_status(id=t)) for t in tweets[:30]]
 
