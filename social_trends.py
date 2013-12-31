@@ -40,6 +40,7 @@ class SocialTrends:
 
         # possible urls
         for url in self.urls:
+            url = url.lstrip("http://").lstrip("https://").lstrip("www.")
             results = self.tw.search(q=url, count=100)
             tweets += [status['id'] for status in results['statuses']]
 
