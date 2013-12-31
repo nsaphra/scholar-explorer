@@ -5,6 +5,7 @@ import social_trends
 import time
 import downloads
 import json
+import random
 
 def main(query):
 
@@ -12,7 +13,7 @@ def main(query):
 
 	article_list = []
 	
-	csv_data = csv(query, author='',  count=20)#, header=True)
+	csv_data = csv(query, author='',  count=1)#, header=True)
 
 	for line in csv_data:
 		line = line.split('|')
@@ -25,6 +26,7 @@ def main(query):
 
 		if len(line) >3 and int(line[3]) > 0: 
 			version_data = url_get(line[5], author='', count=20)
+			time.sleep(random.uniform(2,5))
 			for subline in version_data:
 				subline = subline.split('|')
 				version_urls.append(subline[1])
@@ -48,11 +50,10 @@ def main(query):
 			json_paper['tweets'] = []
 
 			for (tid, tweet) in tweets:
-				print tweet
 				json_tweet = dict()
 				json_tweet['author'] = tweet['user']['screen_name']
 				json_tweet['content'] = tweet['text']
-				json_tweet['url'] = "http://twitter.com/"+tweet['screen_name']+"/status/"+tweet['id']
+				json_tweet['url'] = "http://twitter.com/"+tweet['user']['screen_name']+"/status/"+tweet['id_str']
 				json_paper['tweets'].append(json_tweet)
 
 				
@@ -61,7 +62,7 @@ def main(query):
 
 	toJson= [y[2] for y in sorted(toSort, key=lambda x : x[0]*10000+x[1])]
 
-	return json.dump(toJson)
+	return json.dumps(toJson)
 	
 
 if __name__ == '__main__':
