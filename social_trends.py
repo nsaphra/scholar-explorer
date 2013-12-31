@@ -19,10 +19,15 @@ import pickle
 #    shorts += [urllib2.urlopen(OWLY_SHORTEN+url)]
 #    return shorts
 
-social_cache = {} #TODO pickle
+PICKLE_FILE = "social_trends.pickle"
+social_cache = {} #pickle.load(open(PICKLE_FILE, "rb"))
 
 class SocialTrends:
     def __init__(self, author, title, urls):
+        self.author = author
+        self.title = title
+        
+        
         if (author, title) in social_cache:
             self.twitter_results = social_cache[(author, title)]['twitter']
             self.reddit_results = social_cache[(author, title)]['reddit']
@@ -31,8 +36,6 @@ class SocialTrends:
         (APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET) = KEYS.keys()
         self.tw = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
         self.rd = praw.Reddit(user_agent="scholar-explorer")
-        self.author = author
-        self.title = title
         self.urls = urls
         self.twitter_results = ""
         self.reddit_results = ""
@@ -77,6 +80,7 @@ class SocialTrends:
         top_tweets = [(t, self.tw.show_status(id=t)) for t in tweets[:30]]
 
         self.twitter_results = (trend_score, top_tweets)
+        pickle.dump(social_cache, open(PICKLE_FILE,'wb'))
         return self.twitter_results
 
     #TODO finish implementing
