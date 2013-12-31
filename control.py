@@ -1,6 +1,7 @@
 from scholar import csv
 from scholar import url_get
 from scholar import txt
+import social_trends
 
 def main(query):
 
@@ -23,9 +24,10 @@ def main(query):
 				subline = subline.split('|')
 				version_urls.append(subline[1])
 
-		article_list.append((title, authors, version_urls, venue))
+		article_list.append((authors, title, version_urls, venue))
 
-	print article_list
+	for paper in article_list:
+		tw = social_trends.SocialTrends(authors, title, version_urls)
 				
 		
 
