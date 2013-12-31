@@ -13,7 +13,7 @@ def main(query):
 
 	article_list = []
 	
-	csv_data = csv(query, author='',  count=1)#, header=True)
+	csv_data = csv(query, author='',  count=3)#, header=True)
 
 	for line in csv_data:
 		line = line.split('|')

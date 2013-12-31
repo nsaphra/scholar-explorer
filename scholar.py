@@ -298,13 +298,11 @@ class ScholarParser120726(ScholarParser):
 
                 if tag.find('div', {'class': 'gs_a'}):
                     year = self.year_re.findall(tag.find('div', {'class': 'gs_a'}).text)
-                    print tag.find('div', {'class': 'gs_a'}).text
                     self.article['year'] = year[0] if len(year) > 0 else None
 
                     author = tag.find('div', {'class': 'gs_a'}).text
                     author = author.split(' - ')[0]
                     self.article['author'] = author
-                    print author
 
                     venue = tag.find('div', {'class': 'gs_a'}).text
                     venue = venue.split(' - ')[1]

@@ -313,8 +313,8 @@ class ScholarQuerier(object):
     articles found are collected in the articles member, a list of
     Article instances.
     """
-    SCHOLAR_URL = 'http://scholar.google.com/scholar?hl=en&q=%(query)s+author:%(author)s&btnG=Search&as_subj=eng&as_sdt=1,5&as_ylo=&as_vis=1'
-    NOAUTH_URL = 'http://scholar.google.com/scholar?hl=en&q=%(query)s&btnG=Search&as_subj=eng&as_std=1,5&as_ylo=&as_vis=1'
+    SCHOLAR_URL = 'http://scholar.google.com/scholar?hl=en&q=%(query)s+author:%(author)s&btnG=Search&as_subj=eng&as_sdt=1,5&as_ylo=&as_vis=1&as_ylo=2013'
+    NOAUTH_URL = 'http://scholar.google.com/scholar?hl=en&q=%(query)s&btnG=Search&as_subj=eng&as_std=1,5&as_ylo=&as_vis=1&as_ylo=2013'
 
     # Older URLs:
     # http://scholar.google.com/scholar?q=%s&hl=en&btnG=Search&as_sdt=2001&as_sdtp=on
@@ -377,6 +377,9 @@ def txt(query, author, count):
     querier = ScholarQuerier(author=author, count=count)
     querier.query(query)
     articles = querier.articles
+    for article in articles:
+        print('here');
+        print(articles);
     if count > 0:
         articles = articles[:count]
     for art in articles:
