@@ -5,23 +5,25 @@ jQuery('#article-list-inner').niceScroll(options);
 jQuery('#tweet-list-inner').niceScroll(options);
 
 // get the search term 
-var values = $(this).serialize();
 
 // get the search string 
-$(".form-group").click(function() {
-  var search  = $('#searchfield').val();
+var search;
+$(".search-btn").click(function() {
+    search  = $('#searchfield').val();
+  uploadData(search);
+});
 
-function uploadData(){
+function uploadData(search){
     jQuery.ajax({
-        url: "127.0.0.1:8080?search="+search,
-        type: "post",
+        url: "http://127.0.0.1:8080/search="+search,
+        type: "get",
         data: search,
         success: function(){
             alert("success");
             $("#result").html('Submitted successfully');
         },
-        error:function(){
-            alert("failure");
+        error:function(err){
+            console.log("failure", err);
             $("#result").html('There is error while submit');
         }
     });
