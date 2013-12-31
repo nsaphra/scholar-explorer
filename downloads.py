@@ -3,8 +3,14 @@
 
 import urllib2
 from bs4 import BeautifulSoup
+import pickle
+
+PICKLE_FILE = "downloads.pickle"
+cache = pickle.load(open(PICKLE_FILE, "rb"))
 
 def downloads(title):
+    if title in cache:
+        return cache[title]
     
     # put the title into proper form to use as a query 
     query = title.strip().replace(" ","-");
@@ -34,7 +40,9 @@ def downloads(title):
         if curr_item.strip() == 'n/a':
             curr_item = '0'
         downloads.append(int(curr_item))
-    
+
+    cache[title] = downloads
+    pickle.dump(cache, open(PICKLE_FILE,'wb'))
     return downloads 
 
 
