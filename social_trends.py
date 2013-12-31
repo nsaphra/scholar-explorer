@@ -3,7 +3,7 @@ import sys
 #sys.path.append("GoogleScraper-master")
 #import GoogleScraper as gs
 from twython import Twython, TwythonError
-import praw
+#import praw
 import KEYS
 import pickle
 
@@ -20,22 +20,22 @@ import pickle
 #    return shorts
 
 PICKLE_FILE = "social_trends.pickle"
-social_cache = {} #pickle.load(open(PICKLE_FILE, "rb"))
+social_cache = pickle.load(open(PICKLE_FILE, "rb"))
 
 class SocialTrends:
     def __init__(self, author, title, urls):
         self.author = author
         self.title = title
         
-        
         if (author, title) in social_cache:
             self.twitter_results = social_cache[(author, title)]['twitter']
-            self.reddit_results = social_cache[(author, title)]['reddit']
+            #self.reddit_results = social_cache[(author, title)]['reddit']
             return
 
+        social_cache[(self.author, self.title)] = {}
         (APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET) = KEYS.keys()
         self.tw = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
-        self.rd = praw.Reddit(user_agent="scholar-explorer")
+        #self.rd = praw.Reddit(user_agent="scholar-explorer")
         self.urls = urls
         self.twitter_results = ""
         self.reddit_results = ""
@@ -49,19 +49,11 @@ class SocialTrends:
         tweets = []
 
         # search title + author
-        #results += gs.scrape("site:twitter.com \"" + title + "\" " + author, number_pages = 5)
-        results = self.tw.search(q="site:twitter.com \"" + self.title + "\" " + self.author)
+        #TODO count retweets and use in ranking
+        results = self.tw.search(q="site:twitter.com \"" + self.title + "\" " + self.author, count=100)
         tweets += [status['id'] for status in results['statuses']]
-        #for tweet in results['statuses']:
-        #    tweets.append
-
-
         #TODO see if there are any new urls to check in results?
-        # search author + title fragments
-        #title_toks = title.split()
-        #for i in range(3, len(title_toks)):
-        #    gs = GoogleSearch("\"" + " ".join(title_toks[:i]) + "\" " + author)
-        #    gs.results_per_page = 20
+        #TODO search author + title fragments
 
         # possible urls
         for url in self.urls:
@@ -69,7 +61,7 @@ class SocialTrends:
             #for short_url in short_urls:
             #    results += gs.scrape("site:twitter.com " + short_url)
             #    time.sleep(random.uniform(2, 5))
-            results = self.tw.search(q=url)
+            results = self.tw.search(q=url, count=100)
             tweets += [status['id'] for status in results['statuses']]
             #for tweet in results['statuses']:
             #    print(tweet)
@@ -80,6 +72,7 @@ class SocialTrends:
         top_tweets = [(t, self.tw.show_status(id=t)) for t in tweets[:30]]
 
         self.twitter_results = (trend_score, top_tweets)
+        social_cache[(self.author, self.title)]['twitter'] = self.twitter_results
         pickle.dump(social_cache, open(PICKLE_FILE,'wb'))
         return self.twitter_results
 
