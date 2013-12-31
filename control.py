@@ -68,7 +68,11 @@ def main(query):
 
 	toJson= [y[2] for y in sorted(toSort, key=lambda x : x[0]*10000+x[1])]
 
-	return json.dumps(toJson)
+	toReturn = json.dumps(toJson)
+
+	cache[query] = toReturn
+	pickle.dump(cache, open(PICKLE_FILE, 'wb'))	
+	return toReturn
 	
 
 if __name__ == '__main__':
