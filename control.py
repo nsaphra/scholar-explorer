@@ -6,8 +6,14 @@ import time
 import downloads
 import json
 import random
+import pickle
+
+PICKLE_FILE = "control.pickle"
+cache = pickle.load(open(PICKLE_FILE, "rb"))
 
 def main(query):
+        if query in cache:
+                return cache[query]
 
 	json_output = []
 
@@ -24,7 +30,7 @@ def main(query):
 		venue = venue.lstrip()
 		version_urls = [line[1]]
 
-		if len(line) >3 and int(line[3]) > 0: 
+		if len(line) >3 and int(line[3]) > 0:
 			version_data = url_get(line[5], author='', count=20)
 			time.sleep(random.uniform(2,5))
 			for subline in version_data:
