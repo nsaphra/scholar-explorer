@@ -2,7 +2,7 @@
 # Output: total number of downloads in the last 6 weeks, in the last 12 months and overall
 
 import urllib2
-from bs4 import BeautifulSoup
+import BeautifulSoup
 import pickle
 
 PICKLE_FILE = "downloads.pickle"
