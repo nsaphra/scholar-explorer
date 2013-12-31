@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+/* colors */
+body {
+    background: whitesmoke;
+}
+
+#article-list-inner,#tweet-list-inner {
+    background: white;
+}
+
+/* columns grid selector */
+.jumbotron {
+    padding:12px 55px;
+    background-color: rgba(53, 73, 219, 0.59);
+    color: white;
+    font-size: 18px;
+}
+
+.article-list {
+    width: 66%;
+    margin-right: 4%;
+}
+
+.tweet-list {
+    width: 30%;
+}
+
+.tweet-list ,.article-list {
+    float: left;
+}
+
+.article-list .box div ,.tweet-list .box div {
+    border: 1px solid lightblue;
+    height: 330px;
+}
+
+.without-tweets .article-list {
+    width: 100%;
+}
+
+.without-tweets .tweet-list {
+    display: none;
+}
+
+#article-list-inner, #tweet-list-inner {
+    overflow: hidden;
+    overflow-y: visible;
+}
+
+/* article-list-inner */
+
+#article-list-inner ul,#tweet-list-inner ul {
+    list-style:none;
+    margin: 0 15px 0 10px;
+    padding: 0;
+}
+
+#article-list-inner li,#tweet-list-inner li {
+    border-bottom:1px solid lightgray;
+    padding: 5px;
+    
+}
+
+#article-list-inner h4,#tweet-list-inner h4 {
+    margin: 2px 0;
+}
+
+#article-list-inner h4:hover,#tweet-list-inner h4:hover {
+    color:green;
+}
+
+#article-list-inner a,#tweet-list-inner a {
+    text-decoration:none;
+}
+
+#article-list-inner link.small {
+
+}
+
+/* icons */
+.twitter-icon:before {
+    content: '';
+    background: url('../img/twitter-logo-break1.png') 0 -5px no-repeat;
+    padding:20px 40px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

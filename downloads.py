@@ -24,14 +24,18 @@ def downloads(title):
         result = str(i).find("Bibliometrics")
         if result > 0:
             scramble =  i.parent
+            break 
     
-    # extract the three download numbers  
+    # extract the three download numbers from the string 
     string_scramble = str(scramble).split('/strong>:')[1].replace('\n',' ').split(',')
 
     downloads = []
-    for i in string_scramble:
-        downloads.add(i.split(':')[1])
-
+    for i in string_scramble[:3]:
+        curr_item = i.split(':')[1]
+        if curr_item.strip() == 'n/a':
+            curr_item = '0'
+        downloads.append(int(curr_item))
+    
     return downloads 
 
 
